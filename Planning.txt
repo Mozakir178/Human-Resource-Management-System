@@ -1,0 +1,33 @@
+
+
+First create main data base.
+Then create the employee table.
+Create Departments table.
+Create Admdin table.
+Create One to Many realtionship between department and employee.
+think about the columns.
+Show proper message on the welcome screen.
+Then provide the option is he admin or user.
+if he is admin open another options where he will get option as follow.
+    Add department.
+        Department id , Employee id
+    View Department.
+        Department id.
+    Update Department.
+        Department id.
+    Ragister Employee.
+        Employee details.
+    Transfet Department.
+        Employee e , Department a , Department b.
+    View Leave request.
+         Leave table.
+         
+         
+         
+Employee Options
+    View Deatails 
+        Employee id.
+    Change Password.
+        Employee e
+    Apply Leave
+        Employee e , Leave l
