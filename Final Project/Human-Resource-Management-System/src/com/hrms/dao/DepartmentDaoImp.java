@@ -17,6 +17,9 @@ public class DepartmentDaoImp implements DepartmentDao {
 	@Override
 	public String addDepartment(Department department)  {
 		String result = "Department Not Added" ;
+		if(department.getDeptName().length() < 1 || department.getDeptLoc().length() < 1) {
+			return "Field cannot be empty" ;
+		}
 		try (Connection conn = DBConnection.getConnection()){
 			String query = "insert into department(deptName , deptLoc) values(?,?)" ;
 			PreparedStatement ps = conn.prepareStatement(query) ;

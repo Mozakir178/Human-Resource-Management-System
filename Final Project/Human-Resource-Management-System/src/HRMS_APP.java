@@ -29,7 +29,7 @@ public class HRMS_APP {
 		Scanner sc = new Scanner(System.in) ;
 		System.out.println("Welcone to Human Resource Management System HomePage \n===========================================================");
 		boolean run = true ;
-		while(true) {
+		while(run) {
 			
 			
 			try {
@@ -46,6 +46,7 @@ public class HRMS_APP {
 					break ;
 				}
 				if(x==1) {
+				try {
 					System.out.println("Enter Your admin username");
 					String username = sc.nextLine() ;
 					System.out.println("Enter Your admin password");
@@ -54,153 +55,216 @@ public class HRMS_APP {
 					DepartmentDao departmentDao = new DepartmentDaoImp() ;
 					boolean result = employeeDao.adminLogin(username, password) ;
 					if(result ) {						
-						boolean adminOperation = true ;
-						while(adminOperation) {
-							System.out.println("\nSelect operation you want to perform \n===========================================================");
-							System.out.println("1. Add Department");
-							System.out.println("2. View Department");
-							System.out.println("3. Add New Employee");
-							System.out.println("4. Transfer Employee to other department");
-							System.out.println("5. View Leaves request");
-							System.out.println("6. Logout");
-							System.out.println("7. Exit");
-							System.out.println("===========================================================\n");
-							int adminFirstChoice = Integer.parseInt(sc.nextLine()) ;
-							
-							if(adminFirstChoice == 1) {
-								System.out.println("Enter Department name");
-								String dname = sc.nextLine() ;
-								System.out.println("Enter Location of the Department");
-								String dloc = sc.nextLine() ;
+						try {
+							boolean adminOperation = true ;
+							while(adminOperation) {
+								System.out.println("\nSelect operation you want to perform \n===========================================================");
+								System.out.println("1. Add Department");
+								System.out.println("2. View Department");
+								System.out.println("3. View Employee List");
+								System.out.println("4. View Employee List By Department Id");
+								System.out.println("5. Add New Employee");
+								System.out.println("6. Transfer Employee to other department");
+								System.out.println("7. View Leaves request");
+								System.out.println("8. Logout");
+								System.out.println("9. Exit");
 								System.out.println("===========================================================\n");
-								int id = 0 ;
-								String departmentAdd = departmentDao.addDepartment( new Department(id, dname, dloc) ) ;
-								System.out.println(departmentAdd);
-								System.out.println("===========================================================\n");
-							}
-							else if(adminFirstChoice == 2) {
-								List<Department> allDepartmentList  = null ;
+								
 								try {
-									System.out.println("===========================================================\n");
-									allDepartmentList = departmentDao.viewDepartment() ;
-									allDepartmentList.forEach(s-> {
-										System.out.println("Department Id : " + s.getDeptId()) ;
-										System.out.println("Department Name : " + s.getDeptName()) ;
-										System.out.println("Department Location : " + s.getDeptLoc()) ;
-										System.out.println("===========================================================\n") ;
-									});
-								} catch (DepartmentException e) {
-									System.out.println(e.getMessage());
-									System.out.println("===========================================================\n");
-								} catch (Exception e) {
-									System.out.println(e.getMessage());
-									System.out.println("===========================================================\n");
-								}
+									int adminFirstChoice = Integer.parseInt(sc.nextLine()) ;
 								
-							}
-							
-							else if(adminFirstChoice == 3) {
-								System.out.println("Enter Employee Details\n===========================================================");
-								int employeeId = 0 ;
-								System.out.println("Enter Employee Name: ");
-								String employeeName = sc.nextLine() ;
-								System.out.println("Enter Employee Username");
-								String employeeUsername = sc.nextLine() ;
-								System.out.println("Generate Employee Password");
-								String employeePassword = sc.nextLine() ;
-								System.out.println("Enter department number you want to assign to this employee");
-								int employeeDeptNo = Integer.parseInt(sc.nextLine()) ;
-								System.out.println("Enter Manager Id of Department");
-								int employeeMangId = Integer.parseInt(sc.nextLine()) ;
-								System.out.println("Enter Salary of Employee");
-								int employeeSal = Integer.parseInt(sc.nextLine()) ;
-								DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd") ;
-								LocalDateTime now = LocalDateTime.now() ;
-								String employeeDate = dtf.format(now) ;
-								int employeeLeave = 24 ;
 								
-								String addEmployee = employeeDao.ragisterEmployee(new Employee(employeeId, employeeUsername, employeePassword, employeeName, employeeDeptNo, employeeMangId, employeeSal, employeeDate, employeeLeave) ) ;
-								System.out.println(addEmployee);
-								System.out.println("===========================================================\n");
-							}
-							else if(adminFirstChoice == 4) {
-								System.out.println("Enter Employee Id you want to transfer");
-								int transferEmployeeId = Integer.parseInt(sc.nextLine()) ;
-								System.out.println("Enter Department Id where you want to transfer");
-								int transferDepartmentId = Integer.parseInt(sc.nextLine()) ;
-								
-								String transferEmployee = employeeDao.transferEmployee(transferEmployeeId, transferDepartmentId) ;
-								System.out.println(transferEmployee);
-								System.out.println("===========================================================\n");
-							}
-							else if(adminFirstChoice == 5) {
-								try {
-									List<Leaves> allPendingLeaves = employeeDao.getLeavesList() ;
-									allPendingLeaves.forEach(s -> System.out.println(s)) ;
-									
-									boolean leaveRequestOption = true ;
-									while(leaveRequestOption) {
-										System.out.println("If you want to accept or reject a request select option below");
-										System.out.println("1. Enter 1 to accept a leave request");
-										System.out.println("2. Enter 2 to reject a leave request");
-										System.out.println("3. Enter 3 to go Back");
-										System.out.println("4. Enter 4 to Logout");
-										System.out.println("5. Enter 5 to Exit");
+								if(adminFirstChoice == 1) {
+									try {
+										System.out.println("Enter Department name");
+										String dname = sc.nextLine() ;
+										System.out.println("Enter Location of the Department");
+										String dloc = sc.nextLine() ;
 										System.out.println("===========================================================\n");
-										int leaveRequestChoice = Integer.parseInt(sc.nextLine()) ;
-										if(leaveRequestChoice == 1) {
-											System.out.println("Enter The Employee Id you want to accept the Leave request");
-											int employeeIdForLeave = Integer.parseInt(sc.nextLine() ) ;
-											String acceptLeave = employeeDao.acceptLeave(employeeIdForLeave) ;
-											System.out.println(acceptLeave);
-											System.out.println("===========================================================\n");
-										}
-										else if( leaveRequestChoice == 2) {
-											System.out.println("Enter The Employee Id you want to reject the Leave request");
-											int employeeIdForLeave = Integer.parseInt(sc.nextLine() ) ;
-											String rejectLeave = employeeDao.acceptLeave(employeeIdForLeave) ;
-											System.out.println(rejectLeave);
-											System.out.println("===========================================================\n");
-										}
-										else if(leaveRequestChoice == 3) {
-											leaveRequestOption = false ;
-										}
-										else if(leaveRequestChoice == 4) {
-											leaveRequestOption = false ;
-											adminOperation = false ;
-										}
-										else if(leaveRequestChoice == 5 ) {
-											leaveRequestOption = false ;
-											adminOperation = false ;
-											run = false ;
-										}
+										int id = 0 ;
+										String departmentAdd = departmentDao.addDepartment( new Department(id, dname, dloc) ) ;
+										System.out.println(departmentAdd);
+										System.out.println("===========================================================\n");
+									} catch (Exception e) {
+										System.out.println(e.getMessage());
+									}
+								}
+								else if(adminFirstChoice == 2) {
+									List<Department> allDepartmentList  = null ;
+									try {
+										System.out.println("===========================================================\n");
+										allDepartmentList = departmentDao.viewDepartment() ;
+										allDepartmentList.forEach(s-> {
+											System.out.println("Department Id : " + s.getDeptId()) ;
+											System.out.println("Department Name : " + s.getDeptName()) ;
+											System.out.println("Department Location : " + s.getDeptLoc()) ;
+											System.out.println("===========================================================\n") ;
+										});
+									} catch (DepartmentException e) {
+										System.out.println(e.getMessage());
+										System.out.println("===========================================================\n");
+									} catch (Exception e) {
+										System.out.println(e.getMessage());
+										System.out.println("===========================================================\n");
 									}
 									
-								} catch (Exception e) {
-									System.out.println(e.getMessage());
+								}
+								
+								else if(adminFirstChoice == 5) {
+									try {
+										System.out.println("Enter Employee Details\n===========================================================");
+										int employeeId = 0 ;
+										System.out.println("Enter Employee Name: ");
+										String employeeName = sc.nextLine() ;
+										System.out.println("Enter Employee Username");
+										String employeeUsername = sc.nextLine() ;
+										System.out.println("Generate Employee Password");
+										String employeePassword = sc.nextLine() ;
+										System.out.println("Enter department number you want to assign to this employee");
+										int employeeDeptNo = Integer.parseInt(sc.nextLine()) ;
+										System.out.println("Enter Manager Id of Department");
+										int employeeMangId = Integer.parseInt(sc.nextLine()) ;
+										System.out.println("Enter Salary of Employee");
+										int employeeSal = Integer.parseInt(sc.nextLine()) ;
+										DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd") ;
+										LocalDateTime now = LocalDateTime.now() ;
+										String employeeDate = dtf.format(now) ;
+										int employeeLeave = 24 ;
+										
+										String addEmployee = employeeDao.ragisterEmployee(new Employee(employeeId, employeeUsername, employeePassword, employeeName, employeeDeptNo, employeeMangId, employeeSal, employeeDate, employeeLeave) ) ;
+										System.out.println(addEmployee);
+										System.out.println("===========================================================\n");
+									} catch (Exception e) {
+										System.out.println(e.getMessage());
+									}
+								}
+								else if(adminFirstChoice == 3) {
+									try {
+										List<Employee> employeeList = employeeDao.viewEmployee() ;
+										employeeList.forEach(s ->{
+											System.out.println(s) ;
+											System.out.println() ;
+											}) ;
+										System.out.println("===========================================================\n");
+									} catch (Exception e) {
+										System.out.println(e.getMessage());
+									}
+									
+								}
+								else if(adminFirstChoice == 4) {
+									try {
+										System.out.println("Enter department id");
+										int id = Integer.parseInt(sc.nextLine()) ;
+										List<Employee> employeeList = employeeDao.viewEmployeeByDepartment(id) ;
+										employeeList.forEach(s ->{
+											System.out.println(s) ;
+											System.out.println() ;
+											}) ;
+										System.out.println("===========================================================\n");
+									} catch (Exception e) {
+										System.out.println(e.getMessage());
+									}
+								}
+								else if(adminFirstChoice == 6) {
+									try {
+										System.out.println("Enter Employee Id you want to transfer");
+										int transferEmployeeId = Integer.parseInt(sc.nextLine()) ;
+										System.out.println("Enter Department Id where you want to transfer");
+										int transferDepartmentId = Integer.parseInt(sc.nextLine()) ;
+										
+										String transferEmployee = employeeDao.transferEmployee(transferEmployeeId, transferDepartmentId) ;
+										System.out.println(transferEmployee);
+										System.out.println("===========================================================\n");
+									} catch (Exception e) {
+										System.out.println(e.getMessage());
+									}
+								}
+								else if(adminFirstChoice == 7) {
+									try {
+										List<Leaves> allPendingLeaves = employeeDao.getLeavesList() ;
+										allPendingLeaves.forEach(s -> System.out.println(s)) ;
+										
+										boolean leaveRequestOption = true ;
+										while(leaveRequestOption) {
+											System.out.println("If you want to accept or reject a request select option below");
+											System.out.println("1. Enter 1 to accept a leave request");
+											System.out.println("2. Enter 2 to reject a leave request");
+											System.out.println("3. Enter 3 to go Back");
+											System.out.println("4. Enter 4 to Logout");
+											System.out.println("5. Enter 5 to Exit");
+											System.out.println("===========================================================\n");
+											int leaveRequestChoice = 6 ;
+											try {
+												leaveRequestChoice = Integer.parseInt(sc.nextLine()) ;
+											} catch (Exception e) {
+												
+											}
+											if(leaveRequestChoice == 1) {
+												System.out.println("Enter The Employee Id you want to accept the Leave request");
+												int employeeIdForLeave = Integer.parseInt(sc.nextLine() ) ;
+												String acceptLeave = employeeDao.acceptLeave(employeeIdForLeave) ;
+												System.out.println(acceptLeave);
+												System.out.println("===========================================================\n");
+											}
+											else if( leaveRequestChoice == 2) {
+												System.out.println("Enter The Employee Id you want to reject the Leave request");
+												int employeeIdForLeave = Integer.parseInt(sc.nextLine() ) ;
+												String rejectLeave = employeeDao.acceptLeave(employeeIdForLeave) ;
+												System.out.println(rejectLeave);
+												System.out.println("===========================================================\n");
+											}
+											else if(leaveRequestChoice == 3) {
+												leaveRequestOption = false ;
+											}
+											else if(leaveRequestChoice == 4) {
+												leaveRequestOption = false ;
+												adminOperation = false ;
+											}
+											else if(leaveRequestChoice == 5 ) {
+												leaveRequestOption = false ;
+												adminOperation = false ;
+												run = false ;
+											}
+											else {
+												System.out.println("Enter right input");
+											}
+										}
+										
+									} catch (Exception e) {
+										System.out.println(e.getMessage());
+										System.out.println("===========================================================\n");
+									}
+								}
+								
+								else if(adminFirstChoice == 8) {
+									adminOperation = false ;
+								}
+								else if(adminFirstChoice == 9) {
+									adminOperation = false ;
+									run = false ;
+								}
+								else {
+									System.out.println("Enter Right input");
 									System.out.println("===========================================================\n");
 								}
+								} catch (Exception e) {
+									System.out.println(e.getMessage());
+								}	
 							}
+								
 							
-							else if(adminFirstChoice == 6) {
-								adminOperation = false ;
-							}
-							else if(adminFirstChoice == 7) {
-								adminOperation = false ;
-								run = false ;
-							}
-							else {
-								System.out.println("Enter Right input");
-								System.out.println("===========================================================\n");
-							}
 							
+						} catch (Exception e) {
+							System.out.println(e.getMessage());
 						}
-						
-						
 					}
 					else {
 						System.out.println("Wrong username or Password");
 					}
+					
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
 				}
 				else if ( x == 2) {
 					try {
@@ -223,7 +287,11 @@ public class HRMS_APP {
 								System.out.println("4. Press 4 to Logout");
 								System.out.println("5. Press 5 to Exit");
 								System.out.println("===========================================================\n");
-								int employeeChoice = Integer.parseInt(sc.nextLine()) ;
+								int employeeChoice = 6 ;
+								try {
+									employeeChoice = Integer.parseInt(sc.nextLine()) ;
+								} catch (Exception e) {
+								}
 								int employeeId = employeeLevelAccess.empId(employeeUsername);
 								if(employeeChoice == 1) {
 									try {
@@ -249,23 +317,31 @@ public class HRMS_APP {
 								else if(employeeChoice == 2) {
 //									System.out.println("Enter your Employee Id ");
 //									int employeeId = Integer.parseInt(sc.nextLine()) ;
-									System.out.println("Enter new password");
-									String empPassword = sc.nextLine() ;
-									String changePassword = employeeLevelAccess.updatePassword(employeeId, empPassword) ;
-									System.out.println(changePassword);
-									System.out.println("===========================================================\n");
+									try {
+										System.out.println("Enter new password");
+										String empPassword = sc.nextLine() ;
+										String changePassword = employeeLevelAccess.updatePassword(employeeId, empPassword) ;
+										System.out.println(changePassword);
+										System.out.println("===========================================================\n");
+									} catch (Exception e) {
+										System.out.println(e.getMessage());
+									}
 									
 								}
 								else if(employeeChoice == 3) {
 //									System.out.println("Enter your Employee Id");
 //									int employeeId = Integer.parseInt(sc.nextLine()) ;
-									System.out.println("Enter How many days off you want");
-									int daysOff = Integer.parseInt(sc.nextLine()) ;
-									System.out.println("Enter reason for leave");
-									String reason = sc.nextLine() ;
-									String applyForLeave = employeeLevelAccess.applyForLeave(employeeId, daysOff, reason);
-									System.out.println(applyForLeave);
-									System.out.println("===========================================================\n");
+									try {
+										System.out.println("Enter How many days off you want");
+										int daysOff = Integer.parseInt(sc.nextLine()) ;
+										System.out.println("Enter reason for leave");
+										String reason = sc.nextLine() ;
+										String applyForLeave = employeeLevelAccess.applyForLeave(employeeId, daysOff, reason);
+										System.out.println(applyForLeave);
+										System.out.println("===========================================================\n");
+									} catch (Exception e) {
+										System.out.println(e.getMessage());
+									}
 								}
 								else if(employeeChoice == 4) {
 									employeeOperation = false ;

@@ -20,7 +20,9 @@ public class EmployeeDaoImp implements EmployeeDao {
 	@Override
 	public String ragisterEmployee(Employee employee) throws EmployeeException  {
 		String result = "Not Added" ;
-		
+		if(employee.getJoinDate().length() <= 1 || employee.getName().length() <= 1 || employee.getPassword().length() <= 1 || employee.getUsername().length() <= 1){
+			return "Enter proper details" ;
+		}
 		 try(Connection conn = DBConnection.getConnection()) {
 			 String query = "insert into employee(empName,empuser,emppass,empDepId,empSal,empJoin,empLeave,empMangId) "+
 					 		"values(? , ? , ? , ? , ? , ? , ? , ?)";
